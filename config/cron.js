@@ -2,8 +2,9 @@ module.exports.cron = {
     myFirstJob: {
       schedule: '* * * * * *',
       onTick: function () {
-        // sails.request('/add');
-        // console.log('Added');
+        console.log('----Cron Job Started-----');
+        sails.request('/add');
+        console.log('----Cron Job Stopped-----');
       }
     }
   };

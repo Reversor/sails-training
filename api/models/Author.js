@@ -1,10 +1,3 @@
-/**
- * Author.js
- *
- * @description :: A model definition.  Represents a database table/collection/etc.
- * @docs        :: https://sailsjs.com/docs/concepts/models-and-orm/models
- */
-
 module.exports = {
 
   attributes: {
@@ -20,7 +13,6 @@ module.exports = {
         charset: 'utf8',
         collate: 'utf8_general_ci',
         freezeTableName: false,
-        tableName: 'authors',
     }
 
 
