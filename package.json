@@ -22,7 +22,8 @@
     "twitter": "^1.7.1"
   },
   "devDependencies": {
-    "eslint": "4.11.0"
+    "eslint": "4.11.0",
+    "nodemon": "^1.12.5"
   },
   "scripts": {
     "start": "NODE_ENV=production node app.js",

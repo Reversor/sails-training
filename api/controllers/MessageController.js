@@ -22,17 +22,26 @@ module.exports = {
         const fr=   tw.statuses[0].user.friends_count;
         const av=   tw.statuses[0].user.profile_image_url;
         const t=    tw.statuses[0].text;
+        const tt=   {mes: t};
         const cd=   tw.statuses[0].created_at;
         const lk=   tw.statuses[0].favorite_count;
-        const n=    tw.statuses[0].retweeted_status.user.screen_name;
-        const t1=   tw.statuses[0].retweeted_status.text;
-        const cd1=  tw.statuses[0].retweeted_status.created_at;
-        const lk1=  tw.statuses[0].retweeted_status.favorite_count;
-        const rtw=  tw.statuses[0].retweeted_status.retweet_count;
-        console.log('Message: ' + tw.statuses[0].text + ' Added');
+        // const n=    tw.statuses[0].retweeted_status.user.screen_name;
+        // const t1=   tw.statuses[0].retweeted_status.text;
+        // const cd1=  tw.statuses[0].retweeted_status.created_at;
+        // const lk1=  tw.statuses[0].retweeted_status.favorite_count;
+        // const rtw=  tw.statuses[0].retweeted_status.retweet_count;
+        Cron.findOne({where:{id: 1 }}).then(cron =>{console.log($log=cron.mes)});
+        var check=$log;
+        var a=(sails.hooks.sequelize.vvv);
+        console.log(a);
+        if(t == check){
             Post.create({Name: n,text: t1,cur_d: cd1,likes: lk1,retw: rtw}),
             Message.create({Name: name,text: t,cur_d: cd,likes: lk}),
             Author.create({Name: name,au_id: aid,link: lnk,av: av,friends: fr}),
+            Cron.update(tt, {where: { id: 1 } }),
+            console.log(sequelize.datastore); 
+            console.log('----------------------------------------------------');        
+        }
         res.ok('ok');
     },
     show: function (req,res) {
