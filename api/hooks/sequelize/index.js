@@ -1,9 +1,6 @@
 
 module.exports = function defineSequelizeHook(sails) {
     
-  
-    this.vvv=1234;
-
     global['Sequelize'] = require('sequelize');
     Sequelize.useCLS(require('continuation-local-storage').createNamespace('sails-sequelize-mysql'));
   

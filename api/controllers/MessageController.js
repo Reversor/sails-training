@@ -11,11 +11,12 @@ access_token_key: '2450273389-dn9lXWZ1hcsd7qFGlg2iSqsnSVUDbTDQ5QhrLOD',
 access_token_secret: 'U2bXYixYsgNwD5SteyrANVP3VTwarIppiEK07KItSgvyC'
 });
 
-client.get("search/tweets.json?q=keddr&count="+page, (error, tweets, response) => {
-    tw=tweets;})
+
 
 module.exports = {
     add: function (req,res) {
+        client.get("search/tweets.json?q=keddr&count="+page, (error, tweets, response) => {
+            tw=tweets;})
         const name= tw.statuses[0].user.screen_name;
         const aid=  tw.statuses[0].user.id_str;
         const lnk=  tw.statuses[0].user.url;
@@ -25,21 +26,24 @@ module.exports = {
         const tt=   {mes: t};
         const cd=   tw.statuses[0].created_at;
         const lk=   tw.statuses[0].favorite_count;
-        // const n=    tw.statuses[0].retweeted_status.user.screen_name;
-        // const t1=   tw.statuses[0].retweeted_status.text;
-        // const cd1=  tw.statuses[0].retweeted_status.created_at;
-        // const lk1=  tw.statuses[0].retweeted_status.favorite_count;
-        // const rtw=  tw.statuses[0].retweeted_status.retweet_count;
+        if (tw.statuses[0].retweeted_status !== undefined) {
+            const n=    tw.statuses[0].retweeted_status.user.screen_name;
+            const t1=   tw.statuses[0].retweeted_status.text;
+            const cd1=  tw.statuses[0].retweeted_status.created_at;
+            const lk1=  tw.statuses[0].retweeted_status.favorite_count;
+            const rtw=  tw.statuses[0].retweeted_status.retweet_count;
+            console.log('retweeeeeeetss!!!!!!!!!!!!!!!!!');
+        }else{var n='',t1='',cd1='',lk1=0,rtw=0;}
         Cron.findOne({where:{id: 1 }}).then(cron =>{console.log($log=cron.mes)});
         var check=$log;
-        var a=(sails.hooks.sequelize.vvv);
+        var a=sails.hooks.abc;
         console.log(a);
-        if(t == check){
+        if(t !== check){
             Post.create({Name: n,text: t1,cur_d: cd1,likes: lk1,retw: rtw}),
             Message.create({Name: name,text: t,cur_d: cd,likes: lk}),
             Author.create({Name: name,au_id: aid,link: lnk,av: av,friends: fr}),
             Cron.update(tt, {where: { id: 1 } }),
-            console.log(sequelize.datastore); 
+            console.log('ADDED'); 
             console.log('----------------------------------------------------');        
         }
         res.ok('ok');
