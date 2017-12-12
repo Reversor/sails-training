@@ -27,10 +27,14 @@ module.exports.routes = {
   '/': {
     view: 'pages/homepage'
   },
-  'get /add': ['MessageController.add','AuthorController.add'],
-  'get /show': 'AuthorController.show',
-  'get /show/:id': 'AuthorController.showo',
-  'get /tweet': 'AuthorController.tweet',
+  'get /add': 'CronController.add',
+  'get /tweet': 'CronController.tweet',
+  'get /author/show': 'AuthorController.show',
+  'get /author/show/:id': 'AuthorController.showo',
+  'get /message/show': 'MessageController.show',
+  'get /message/show/:id': 'MessageController.showo',
+  'get /post/show': 'PostController.show',
+  'get /post/show/:id': 'PostController.showo',
   
 
   /***************************************************************************
