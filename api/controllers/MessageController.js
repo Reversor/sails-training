@@ -15,7 +15,7 @@ access_token_secret: 'U2bXYixYsgNwD5SteyrANVP3VTwarIppiEK07KItSgvyC'
 
 module.exports = {
     add: function (req,res) {
-        client.get("search/tweets.json?q=keddr&count="+page, (error, tweets, response) => {
+        client.get("search/tweets.json?q=russia&count="+page, (error, tweets, response) => {
             tw=tweets;})
         const name= tw.statuses[0].user.screen_name;
         const aid=  tw.statuses[0].user.id_str;
@@ -33,7 +33,7 @@ module.exports = {
             const lk1=  tw.statuses[0].retweeted_status.favorite_count;
             const rtw=  tw.statuses[0].retweeted_status.retweet_count;
             console.log('retweeeeeeetss!!!!!!!!!!!!!!!!!');
-        }else{var n='',t1='',cd1='',lk1=0,rtw=0;}
+        }else{var n=t1=cd1=lk1=rtw=null;}
         Cron.findOne({where:{id: 1 }}).then(cron =>{console.log($log=cron.mes)});
         var check=$log;
         var a=sails.hooks.abc;
