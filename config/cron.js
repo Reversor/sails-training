@@ -5,7 +5,6 @@ module.exports.cron = {
         console.log('|||||||||||||||||||||||||||||||||||||||||||||||||||||||||');
         console.log('----Cron Job Started-----');
         sails.request('/add');
-        console.log('----Cron Job Stopped-----');
       }
     }
   };
