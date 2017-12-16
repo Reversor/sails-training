@@ -1,7 +1,62 @@
+const {Readable,Writable,Transform} = require('stream');
+
+class ReadArray extends Readable{
+    constructor(arrayData,opt={}){
+        super(opt)
+        this._arrayData=arrayData;
+        this.on('data',(chunk)=>{console.log('chunk')});
+        this.on('end',()=>{console.log('end')});
+    }
+
+    _read(){
+        let data=this._arrayData.shift();
+        if(data){
+            this.push(data);
+        }else{
+            this.push(null);
+        }
+    }
+}
+
+
+class WriteArray extends Writable{
+    constructor(opt={}){
+        super(opt)
+        this.on('finish',(chunk)=>{console.log('done')});
+    }
+
+    _write(chunk,encoding,done){
+            console.log('message added')
+            Message.create(chunk.a)
+            console.log('author added')
+            Author.create(chunk.b)
+            console.log('retweeet')
+            Post.create(chunk.c)
+            Cron.update({mes: chunk.a.text}, {where: { id: 1 } })
+        done();
+    }
+}
+
+class TransformArray extends Transform{
+    constructor(opt={}){
+        super(opt)
+        this.on('finish',(chunk)=>{console.log('transformed')});
+    }
+
+    _transform(chunk,encoding,done){
+            if(chunk.retweeted_status !== undefined){
+                this.push({a:{Name: chunk.user.screen_name, text: chunk.text, cur_d: chunk.created_at, likes: chunk.favorite_count},
+                    b:{Name: chunk.user.screen_name, au_id: chunk.user.id_str, link: chunk.user.url, av: chunk.user.profile_image_url, friends: chunk.user.friends_count},
+                    c:{Name: chunk.retweeted_status.user.screen_name, text: chunk.retweeted_status.text, cur_d: chunk.retweeted_status.created_at, likes: chunk.retweeted_status.favorite_count, retw: chunk.retweet_count}});
+            }
+        done();
+    }
+}
+
 module.exports = function tw(sails) {
     // Twitter api variables     
        var Twitter = require('twitter');
-       var num = 1;
+       var num = 5;
        var q = 'Russia';  
        var tw = {};
     // auth data for twitter api
@@ -20,58 +75,25 @@ module.exports = function tw(sails) {
 
           tweeta: function() {
             client.get("search/tweets.json?q="+q+"&count="+num, (error, tweets, response) => {
-                if(tweets){
-                    tw=tweets;
-                    const name= tw.statuses[0].user.screen_name;
-                    const aid=  tw.statuses[0].user.id_str;
-                    const lnk=  tw.statuses[0].user.url;
-                    const fr=   tw.statuses[0].user.friends_count;
-                    const av=   tw.statuses[0].user.profile_image_url;
-                    const t=    tw.statuses[0].text;
-                    const tt=   {mes: t};
-                    const cd=   tw.statuses[0].created_at;
-                    const lk=   tw.statuses[0].favorite_count;
-                    // check retweets not null
-                    if (tw.statuses[0].retweeted_status !== undefined) {
-                        var n=    tw.statuses[0].retweeted_status.user.screen_name;
-                        var t1=   tw.statuses[0].retweeted_status.text;
-                        var cd1=  tw.statuses[0].retweeted_status.created_at;
-                        var lk1=  tw.statuses[0].retweeted_status.favorite_count;
-                        var rtw=  tw.statuses[0].retweeted_status.retweet_count;
-                        console.log('retweeeeeeetss!!!!!!!!!!!!!!!!!');
-                    }else{var n=t1=cd1=lk1=rtw=null;}
-                    // get message from cron job
+                let opts = {objectMode:true};
+                // console.log(tweets);
+                if(!tweets.errors){
                     Cron.findOne({where:{id: 1 }}).then(cron =>{
-                        // check if it exist in db
-                        if(t !== cron.mes){
-                            Post.create({Name: n,text: t1,cur_d: cd1,likes: lk1,retw: rtw}),
-                            Message.create({Name: name,text: t,cur_d: cd,likes: lk}),
-                            Author.create({Name: name,au_id: aid,link: lnk,av: av,friends: fr}),
-                            Cron.update(tt, {where: { id: 1 } }),
-                            console.log('ADDED:  '+t); 
-                            console.log('----------------------------------------------------');        
-                            }
-                    });
-                }
+                        if(tweets.statuses[0].text !== cron.mes){
+                            const R = new ReadArray(tweets.statuses,opts); 
+                            const W = new WriteArray(opts); 
+                            const T = new TransformArray(opts);
+                            R.pipe(T).pipe(W);}
+                    })
+                }                            
             })
           }
        };
-
-        // search tweets by query
-        async function geet (q,num) {
-            client.get("search/tweets.json?q="+q+"&count="+num, (error, tweets, response) => {
-                // console.log(Object.keys(response));
-                // console.log(response.complete);
-                if(response.complete==true){
-                    tww=tweets;
-                }else{
-                    return Promise.reject(new Error('Problem!'));
-                }
-        });
-        return Promise.resolve(tww);
-    }
- 
-    
-
            
+
+        function geet (q,num) {
+                client.get("search/tweets.json?q="+q+"&count="+num, (error, tweets, response) => {tww=tweets;});
+                 return tww;
+            }
     };
+        
