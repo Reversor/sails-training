@@ -78,13 +78,10 @@ module.exports = function tw(sails) {
                 let opts = {objectMode:true};
                 // console.log(tweets);
                 if(!tweets.errors){
-                    Cron.findOne({where:{id: 1 }}).then(cron =>{
-                        if(tweets.statuses[0].text !== cron.mes){
                             const R = new ReadArray(tweets.statuses,opts); 
                             const W = new WriteArray(opts); 
                             const T = new TransformArray(opts);
-                            R.pipe(T).pipe(W);}
-                    })
+                            R.pipe(T).pipe(W);
                 }                            
             })
           }
