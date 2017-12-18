@@ -6,8 +6,10 @@ module.exports = {
         },
         // get last tweet
         tweet: function (req,res) {
-            var tw=sails.hooks.tw.tweetq();
-            res.json(tw.statuses[0]);
+            sails.hooks.tw.tweetq().then((tw)=>{
+                res.json(tw.statuses[0]);
+            });
+           
         },
 };
 

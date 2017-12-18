@@ -45,9 +45,10 @@ class TransformArray extends Transform{
 
     _transform(chunk,encoding,done){
             if(chunk.retweeted_status !== undefined){
-                this.push({a:{Name: chunk.user.screen_name, text: chunk.text, cur_d: chunk.created_at, likes: chunk.favorite_count},
+                this.push({
+                    a:{Name: chunk.user.screen_name, text: chunk.text, cur_d: chunk.created_at, likes: chunk.favorite_count, mes_id: chunk.id, au_id: chunk.user.id_str},
                     b:{Name: chunk.user.screen_name, au_id: chunk.user.id_str, link: chunk.user.url, av: chunk.user.profile_image_url, friends: chunk.user.friends_count},
-                    c:{Name: chunk.retweeted_status.user.screen_name, text: chunk.retweeted_status.text, cur_d: chunk.retweeted_status.created_at, likes: chunk.retweeted_status.favorite_count, retw: chunk.retweet_count}});
+                    c:{Name: chunk.retweeted_status.user.screen_name, text: chunk.retweeted_status.text, cur_d: chunk.retweeted_status.created_at, likes: chunk.retweeted_status.favorite_count, retw: chunk.retweet_count, mes_id: chunk.id}});
             }
         done();
     }
@@ -69,8 +70,10 @@ module.exports = function tw(sails) {
        
        return {
           tweetq: function () {
-            geet(q,num);
-            return tww;
+            return geet(q,num).then((tww)=> {
+                return tww;
+            });
+           
           },
 
           tweeta: function() {
@@ -89,8 +92,12 @@ module.exports = function tw(sails) {
            
 
         function geet (q,num) {
-                client.get("search/tweets.json?q="+q+"&count="+num, (error, tweets, response) => {tww=tweets;});
-                 return tww;
-            }
+            return new Promise((resolve, reject) =>{
+                client.get("search/tweets.json?q="+q+"&count="+num, (error, tweets, response) => {
+                    resolve(tweets)
+                })
+            })
+               
+        }
     };
         
