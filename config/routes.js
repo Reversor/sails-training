@@ -27,15 +27,15 @@ module.exports.routes = {
   '/': {
     view: 'pages/homepage'
   },
-  'get /add': 'CronController.add',
-  'get /tweet': 'CronController.tweet',
-  'get /author/show': 'AuthorController.show',
-  'get /author/show/:id': 'AuthorController.showo',
-  'get /message/show': 'MessageController.show',
-  'get /message/show/:id': 'MessageController.showo',
-  'get /post/show': 'PostController.show',
-  'get /post/show/:id': 'PostController.showo',
-  
+  'post /tweets': 'CronController.add',
+  'get /tweets': 'CronController.tweet',
+  'get /authors': 'AuthorController.show',
+  'get /authors/:id': 'AuthorController.showo',
+  'get /messages': 'MessageController.show',
+  'get /messages/:id': 'MessageController.showo',
+  'get /posts': 'PostController.show',
+  'get /posts/:id': 'PostController.showo',
+
 
   /***************************************************************************
   *                                                                          *
