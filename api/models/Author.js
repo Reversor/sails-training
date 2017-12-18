@@ -2,10 +2,10 @@ module.exports = {
 
   attributes: {
       Name: {type: Sequelize.STRING},         
-      au_id: {type: Sequelize.STRING},
-      link: {type: Sequelize.STRING},
-      av: {type: Sequelize.STRING},
-      friends: {type: Sequelize.INTEGER},
+      Author_id: {type: Sequelize.STRING},
+      Link: {type: Sequelize.STRING},
+      Avatar: {type: Sequelize.STRING},
+      Friends_Count: {type: Sequelize.INTEGER},
     },
   associations: function () {
     },
