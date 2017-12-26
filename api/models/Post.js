@@ -2,10 +2,11 @@ module.exports = {
   
     attributes: {
         Name: {type: Sequelize.STRING},         
-        text: {type: Sequelize.STRING},
-        cur_d: {type: Sequelize.STRING},
-        likes: {type: Sequelize.INTEGER},
-        retw: {type: Sequelize.INTEGER}
+        Text: {type: Sequelize.STRING},
+        Created_at: {type: Sequelize.STRING},
+        Likes: {type: Sequelize.INTEGER},
+        Retweet_count: {type: Sequelize.INTEGER},
+        Message_id: {type: Sequelize.STRING}
       },
     associations: function () {
       },

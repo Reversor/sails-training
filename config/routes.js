@@ -27,7 +27,7 @@ module.exports.routes = {
   '/': {
     view: 'pages/homepage'
   },
-  'post /tweets': 'CronController.add',
+  'get /add': 'CronController.add',
   'get /tweets': 'CronController.tweet',
   'get /authors': 'AuthorController.show',
   'get /authors/:id': 'AuthorController.showo',
