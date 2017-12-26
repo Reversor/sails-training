@@ -14,25 +14,25 @@
  */
 
 module.exports.datastores = {
-  
+
     localMySql: {
       adapter: 'sails-mysql',
       host: 'localhost',
       port: 3306,
       user: 'root',
-      password: '',
-      database: 'shift',
+      password: 'Revers914',
+      database: 'node',
       options: {
           dialect: 'mysql',
           host: 'localhost',
           port: 3306,
           user: 'root',
-          password: '',
-          database: 'shift',
+          password: 'Revers914',
+          database: 'node',
           logging: console.log
       }
     }
-  
+
     /***************************************************************************
     *                                                                          *
     * Your app's default datastore.                                            *
@@ -48,9 +48,9 @@ module.exports.datastores = {
     * (For production configuration, see `config/env/production.js`.)          *
     *                                                                          *
     ***************************************************************************/
-  
+
     //default: {
-  
+
       /***************************************************************************
       *                                                                          *
       * Want to use a different database during development?                     *
@@ -64,6 +64,5 @@ module.exports.datastores = {
       * 3. Then pass it in, along with a connection URL.                         *
       *    (See https://sailsjs.com/config/datastores for help.)                 *
       *                                                                          *
-      ***************************************************************************/ 
+      ***************************************************************************/
   };
-  
