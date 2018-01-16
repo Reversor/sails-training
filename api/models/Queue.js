@@ -5,9 +5,6 @@ module.exports = {
       type: Sequelize.INTEGER,
       autoIncrement: true
     },
-    date: {
-      type: Sequelize.DATE,
-    },
     req: {
       type: Sequelize.STRING,
     },

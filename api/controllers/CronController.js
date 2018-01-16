@@ -13,9 +13,10 @@ module.exports = {
   },
   // get tweets
   tweets: function (req, res) {
-    let query = req.query;
+    console.log(req.query);
+    let query = JSON.stringify(req.query);
     if (query) {
-      sails.hooks.queue.put(req.parameters).then(
+      sails.hooks.queue.put(query).then(
         () => {
           res.json({ msg: 'Add to queue'});
         }

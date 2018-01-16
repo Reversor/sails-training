@@ -3,27 +3,21 @@ module.exports = function queue(sails) {
   return {
     put: (req) => {
       let queue = {
-        date: Date.now(),
-        req: req,
+        req: JSON.stringify(req),
         status: 'NEW',
       };
       return Queue.create(queue);
     },
     getNew: () => {
-      return Queue.min('date',{
+      return Queue.findOne({
         where: {
-          status: 'NEW',
-        }
-      });
+          status: 'NEW'
+        }});
     },
-    setNew: (queue) => {
-      return queue.update({status: 'NEW'});
-    },
-    setPerformed: (queue) => {
-      return queue.update({status: 'PERFORMED'});
-    },
-    setInProcessed: (queue) => {
-      return queue.update({status: 'PROCESSING'});
+    setStatus: (queue, status) => {
+      queue.status = status;
+      return queue.save();
+      // return queue.update({status: status}, {where: {id: queue.id}});
     }
   };
 };
